@@ -1,0 +1,5 @@
+[all]
+localhost ansible_connection=local
+
+# remote
+# ubuntu-vserver ansible_host=ubuntu-vserver ansible_user=root

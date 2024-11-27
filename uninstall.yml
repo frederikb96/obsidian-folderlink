@@ -1,0 +1,18 @@
+---
+- hosts: all
+  tasks:
+    - name: Remove .desktop file
+      file:
+        path: "{{ ansible_user_dir }}/.local/share/applications/folderlink.desktop"
+        state: absent
+
+    - name: Remove MIME type XML file
+      file:
+        path: "{{ ansible_user_dir }}/.local/share/mime/packages/folderlink.xml"
+        state: absent
+
+    - name: Update MIME database
+      shell: update-mime-database "{{ ansible_user_dir }}/.local/share/mime"
+
+    - name: Update desktop database
+      shell: update-desktop-database "{{ ansible_user_dir }}/.local/share/applications"

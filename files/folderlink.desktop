@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Obsidian FolderLink
+Exec=.local/lib/obsidian-folderlink/obsidian-folderlink.sh %f
+Type=Application
+Terminal=false
+MimeType=application/x-folderlink;
+Categories=Development;Editor;

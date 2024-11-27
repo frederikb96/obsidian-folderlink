@@ -1,0 +1,42 @@
+---
+- hosts: all
+  tasks:
+    - name: Ensure lib directory exists
+      file:
+        path: ~/.local/lib/obsidian-folderlink
+        state: directory
+
+    - name: Copy .sh file for FolderLink
+      copy:
+        src: files/folderlink.sh
+        dest: ~/.local/lib/obsidian-folderlink/obsidian-folderlink.sh
+        mode: 0755
+
+    - name: Ensure applications directory exists
+      file:
+        path: ~/.local/share/applications
+        state: directory
+
+    - name: Copy .desktop file for FolderLink
+      copy:
+        src: files/folderlink.desktop
+        dest: ~/.local/share/applications/folderlink.desktop
+
+    - name: Ensure MIME packages directory exists
+      file:
+        path: ~/.local/share/mime/packages
+        state: directory
+
+    - name: Copy MIME type XML file
+      copy:
+        src: files/folderlink.xml
+        dest: ~/.local/share/mime/packages/folderlink.xml
+
+    - name: Update MIME database
+      shell: update-mime-database ~/.local/share/mime
+
+    - name: Update desktop database
+      shell: update-desktop-database ~/.local/share/applications
+
+    - name: Register .folderlink file type with FolderLink application
+      shell: xdg-mime default folderlink.desktop application/x-folderlink
