@@ -1,6 +1,11 @@
 ---
 - hosts: all
   tasks:
+    - name: Remove lib directory
+      file:
+        path: "{{ ansible_user_dir }}/.local/lib/obsidian-folderlink"
+        state: absent
+
     - name: Remove .desktop file
       file:
         path: "{{ ansible_user_dir }}/.local/share/applications/folderlink.desktop"
