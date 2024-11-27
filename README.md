@@ -4,6 +4,12 @@
 
 This integration enables you to link an existing folder to your Obsidian note.
 
+
+
+https://github.com/user-attachments/assets/16875d21-0878-4399-a221-733c4d686863
+
+
+
 It works by creating a helper `.folderlink` file that stores the path to the desired folder. The integration leverages Obsidian's ability to open files with the systems default application. Therefore, this playbook registers a new application that lets you drag and drop or select a folder and stores its path in the `.folderlink` file. 
 
 When you click the link in Obsidian, the new appliation then handles everything for you and directly opens the folder in your default file manager.
