@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Obsidian FolderLink
-Exec=.local/lib/obsidian-folderlink/obsidian-folderlink.sh %f
+Exec=bash -c '${HOME}/.local/lib/obsidian-folderlink/obsidian-folderlink.sh "$1"' _ %f
 Type=Application
 Terminal=false
 MimeType=application/x-folderlink;
