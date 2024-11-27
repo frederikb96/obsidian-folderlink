@@ -1,20 +1,16 @@
 # Obsidian FolderLink Integration to create markdown links to folders
 
-**Linux only**
+**Linux only, reliable but uses a workaround**
 
-This integration enables you to link an existing folder to your Obsidian note.
+**TLDR**: This integration allows you to create markdown links in Obsidian to folders amd opens them in your default file manager.
 
+This integration enables you to link an existing folder to your Obsidian note. You can link any kind of folder (inside or outside of vault) in your current note as a Markdown link. When clicking on the link, the folder is opened in the default file explorer. The link is created by drag and drop or selection of a folder in the default system file picker.
 
 
 https://github.com/user-attachments/assets/16875d21-0878-4399-a221-733c4d686863
 
 
-
-It works by creating a helper `.folderlink` file that stores the path to the desired folder. The integration leverages Obsidian's ability to open files with the systems default application. Therefore, this playbook registers a new application that lets you drag and drop or select a folder and stores its path in the `.folderlink` file. 
-
-When you click the link in Obsidian, the new appliation then handles everything for you and directly opens the folder in your default file manager.
-
-TLDR: This integration allows you to create markdown links to folders in Obsidian.
+It works by creating a helper `.folderlink` file that stores the path to the desired folder. The integration leverages Obsidian's ability to open files with the systems default application. Therefore, this playbook registers a new application that lets you drag and drop or select a folder and stores its path in the `.folderlink` file. This way you can basically achieve anything you want to, not only linking folders, basically linking everything you want and very reliably to your Obsidian Note. (I made some more for VS Code repositories etc.).
 
 ## Usage
 
