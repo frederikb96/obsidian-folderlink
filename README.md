@@ -1,10 +1,14 @@
-# Obsidian FolderLink Integration to create and link folders
-
-This Integration enables you to quickly create a folder as attachment to your Obsidian note and open it with the default file manager. This is done by creating a helper file with the same name as the folder and utilizing that Obsidian supports opening and linking files. Since we autoamte the creation of a new file ending and a new desktop application, you can simply link this dummy file, and the new application automatically opens the folder for you. By using Templater plugin, you can easily create a new folder and link it to your note with a single shortcut. It works for all types of Linux Obsidian installations since it is very reliable and only needs the basic Linux launcher functionality and is based on Obsidian being able to open files, which every Obsidian installation can do.
-
-TLDR: Create a new folder and link it to your note with a single shortcut.
+# Obsidian FolderLink Integration to create markdown links to folders
 
 **Linux only**
+
+This integration enables you to link an existing folder to your Obsidian note.
+
+It works by creating a helper `.folderlink` file that stores the path to the desired folder. The integration leverages Obsidian's ability to open files with the systems default application. Therefore, this playbook registers a new application that lets you drag and drop or select a folder and stores its path in the `.folderlink` file. 
+
+When you click the link in Obsidian, the new appliation then handles everything for you and directly opens the folder in your default file manager.
+
+TLDR: This integration allows you to create markdown links to folders in Obsidian.
 
 ## Usage
 
@@ -15,7 +19,7 @@ ansible-playbook main.yml
 ```
 
 The playbook performs the following:
-1. Copies the `.desktop` file to register the new application.
+1. Copies over the `.desktop` file and script to register the new application.
 2. Adds the MIME type for `.folderlink` files.
 3. Updates the desktop and MIME databases to register the changes.
 
@@ -34,17 +38,40 @@ Install the [Templater plugin](https://github.com/SilentVoid13/Templater) in Obs
 Create a new template file in Obsidian with the following content:
 
 ```javascript
-
+<%*
+const userInput = await tp.system.prompt("Enter a Link Name for the Folder Link");
+if (userInput) {
+    
+    // Create the full filename by appending the user input with the extension
+    const fullFileName = `${userInput}.folderlink`;
+    
+    // Get the directory of the current note
+    const currentDir = tp.file.folder(true);
+    
+    // Define the path to the attachments folder in the current note's directory
+    const attachmentFolder = `${currentDir}/attachments`;
+    
+    // Full file path for the new file
+    const fullFilePath = `${attachmentFolder}/${fullFileName}`;
+    
+    // Create the new file with a newline as content
+    await this.app.vault.create(fullFilePath, ".");
+    
+    // Insert a relative link to the new file in the current note
+    const relativePath = `attachments/${fullFileName}`;
+    tR += `[[${relativePath}]]`;
+}
+%>
 ```
-We assume that the **new folder should be place in the attachments folder** of the current note. The template prompts you to enter a folder name, creates a new `.folderlink` file in the attachments folder, and inserts a relative link to the file in the current note.
+
+We assume that the **helper file should be place in the attachments folder** of the current note. The template prompts you to enter a name for the link to the folder, and inserts this as relative link to the folder in the current note.
 
 ### Step 3: Configure a Shortcut in Obsidian
 
-In Obsidian, go to **Settings > Templater > Templates Folder** and set the folder containing your new template. Assign a shortcut to the template file for quick access.
+In Obsidian, go to **Settings > Templater > Template Hotkeys** and set the new Tempalte as new Hotkey. Assign an 'insert' shortcut to the template file for quick access.
 
 ### Step 4: Usage in Obsidian
 
-1. Use the assigned shortcut to create a new `.folderlink` file in the `attachments` folder of the current note.
-2. The template automatically inserts a relative link to the file in the current note.
-3. Clicking the link opens the `.folderlink` file with the default system application, which triggers the new application registered in this repository.
-4. The registered application creates a new folder named after the `.folderlink` file (without the extension) and opens the folder with the default file manager.
+1. Use the assigned shortcut to create a new `.folderlink` file in the `attachments` folder of the current note and links it in the note.
+2. Clicking the link opens the .folderlink file with the default system application, triggering the application registered by this integration.
+3. The application then asks you to link the folder or if already linked, opens the folder in your default file manager.
